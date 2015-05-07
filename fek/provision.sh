@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # Etc
-sudo yum -y update
 sudo yum -y install vim gcc libcurl-devel git java-1.7.0-openjdk-devel.x86_64
 
 # firewall
@@ -28,11 +27,6 @@ sudo yum -y install elasticsearch
 sudo systemctl start elasticsearch
 sudo chkconfig elasticsearch on
 
-# Kibana
-curl -L -O https://download.elasticsearch.org/kibana/kibana/kibana-3.1.0.tar.gz
-tar zxvf kibana-3.1.0.tar.gz
-sudo mv kibana-3.1.0 /var/www/html/kibana
-
 # Fluenrd
 curl -L http://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh | sh
 sudo gem install json --no-ri --no-rdoc
@@ -43,3 +37,9 @@ sudo chown td-agent:td-agent /var/log/td-agent/access_log.pos
 sudo chmod 755 /var/log/td-agent/access_log.pos
 sudo sh -c "cat /vagrant/td-agent.conf >> /etc/td-agent/td-agent.conf"
 sudo /etc/init.d/td-agent start
+
+# Kibana
+wget https://download.elastic.co/kibana/kibana/kibana-4.0.2-linux-x64.tar.gz
+tar zxvf kibana-4.0.2-linux-x64.tar.gz
+cd kibana-4.0.2-linux-x64
+sudo ./bin/kibana > /dev/null 2>&1 &
